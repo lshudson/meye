@@ -3,13 +3,15 @@ import os
 import time
 
 os.sys.path += ['expman']
-import expman
+import expman # experiment manager for ml
 
 import numpy as np
 import pandas as pd
 import tensorflow as tf
 from tqdm import trange
 
+# times how long it takes model to predict pupil center and radius
+# should be used if retraining model often - question
 
 def main(args):
     is_run_dir = expman.is_exp_dir(args.model)
@@ -35,6 +37,7 @@ def main(args):
     for _ in trange(args.n):
         model.predict(data)
     end = time.time()
+    # time it takes model to predict
     elapsed = end - start
 
     throughput = elapsed / args.n
@@ -50,6 +53,7 @@ def main(args):
     if args.output:
         timings.to_csv(args.output)
 
+    return elapsed
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Predict on test video')

@@ -6,7 +6,11 @@ import tensorflow_addons as tfa
 
 from functools import partial
 
-# find pupil center
+# prepares and loads data to be inputted into ml model
+# involves tensorflow, datasets, csvs - may take lots of time
+# therefore not best for measuring time for data to come in
+
+# find pupil position
 def _get_pupil_position(pmap, datum, x_shape):
     total_mass = tf.reduce_sum(pmap)
     if total_mass > 0:
@@ -27,7 +31,8 @@ def _get_pupil_position(pmap, datum, x_shape):
 
     return result
 
-
+# decorator function that converts regular python code to a callable Tensorflow graph function, 
+# which is usually more performant and python independent; used to create portable Tensorflow models
 @tf.function
 def load_datum(datum, x_shape=(128, 128, 1), augment=False):
 
@@ -140,7 +145,6 @@ def load_datum(datum, x_shape=(128, 128, 1), augment=False):
 
     return x, y, y2
 
-
 def get_loader(dataframe, batch_size=8, shuffle=False, **kwargs):
     categories = dataframe.exp.values
 
@@ -162,7 +166,6 @@ def get_loader(dataframe, batch_size=8, shuffle=False, **kwargs):
     dataset = dataset.prefetch(tf.data.AUTOTUNE)
     return dataset, categories
 
-
 def load_datasets(dataset_dirs):
 
     def _load_and_prepare_annotations(dataset_dir):
@@ -173,9 +176,7 @@ def load_datasets(dataset_dirs):
         return data
 
     dataset = pd.concat([_load_and_prepare_annotations(d) for d in dataset_dirs])
-    dataset['sub'] = dataset['sub'].astype(str)
     return dataset
-
 
 if __name__ == '__main__':
     dataset = load_datasets(['NN_human_mouse_eyes'])

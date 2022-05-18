@@ -26,13 +26,16 @@ from tqdm import tqdm
 from functools import partial
 
 from dataloader import get_loader, load_datasets
-from deeplabv3p.models.deeplabv3p_mobilenetv3 import hard_swish
+from deeplabv3p_mobilenetv3 import hard_swish
 from models.deeplab import build_model, AVAILABLE_BACKBONES
 from utils import visualize
 from expman import Experiment
 
 import evaluate
 
+# trains, fits, evaluates ml model using Deep Lab's train models as an arg parser
+# should be a separate process from data coming in and predicting results
+# therefore not used for time series
 
 def main(args):
     exp = Experiment(args, ignore=('epochs', 'resume'))

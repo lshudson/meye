@@ -32,6 +32,9 @@ from expman import Experiment
 
 import evaluate
 
+# trains, fits, evaluates ml model
+# should be a separate process from data coming in and predicting results
+# therefore not used for time series
 
 def main(args):
     exp = Experiment(args, ignore=('epochs', 'resume'))

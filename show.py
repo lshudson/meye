@@ -18,6 +18,7 @@ from glob import glob
 
 import expman
 
+# plots all metrics
 
 def ee(args):
     sns.set_theme(context='notebook', style='whitegrid')

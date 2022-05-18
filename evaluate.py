@@ -22,10 +22,11 @@ from glob import glob
 from tqdm import tqdm
 from PIL import Image
 
-from deeplabv3p.models.deeplabv3p_mobilenetv3 import hard_swish
+from deeplabv3p_mobilenetv3 import hard_swish
 from dataloader import get_loader, load_datasets
 from utils import visualize, visualizable
 
+# evaluates which is best model using loaded data, gets test predictions
 
 def iou_coef(y_true, y_pred, smooth=0.001, thr=None):
     y_pred = K.cast(y_pred > thr, 'float32') if thr is not None else y_pred
